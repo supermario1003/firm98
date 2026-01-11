@@ -193,8 +193,10 @@ cd /reproducible-build
 # ignore ownership of the local repo
 git config --global --add safe.directory /local/.git
 cp -a /local trezor-firmware
+git config --global --add safe.directory /reproducible-build/trezor-firmware
 cd trezor-firmware
 git submodule sync --recursive
+git submodule update --init --recursive --force
 git submodule update --init --recursive --force
 EOF
 
