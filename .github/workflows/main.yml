@@ -29,7 +29,7 @@ jobs:
           DOCKER_BUILDKIT: 1
         run: |
           chmod +x build-docker.sh
-          ./build-docker.sh --models T1B1 main
+          INIT=1 ./build-docker.sh --models T1B1 main
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
