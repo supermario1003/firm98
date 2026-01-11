@@ -1,0 +1,100 @@
+[project]
+name = "trezor-firmware"
+version = "0.0.0"
+description = ""
+authors = [{ name = "SatoshiLabs", email = "info@satoshilabs.com" }]
+requires-python = ">=3.9,<4"
+dependencies = [
+    "trezor",
+    "tvl",
+    "scons",
+    "protobuf",
+    "nanopb>=0.4.3,<0.5",
+    "pytest>=8,<9",
+    "coverage==5.5",
+    "pytest-ordering",
+    "pytest-random-order",
+    "pytest-timeout",
+    "pytest-xdist",
+    "tox",
+    "dominate",
+    "pyserial",
+    "mnemonic>=0.21,<0.22",
+    "shamir-mnemonic>=0.3.0,<0.4",
+    "slip10>=1.0.1,<2",
+    "fido2>=0.8.0,<0.9",
+    "python-bitcoinlib>=0.11.0,<0.12",
+    "typing-extensions>=4.7.1",
+    "isort>=5,<6",
+    "flake8>=7",
+    "black>=24.2",
+    "mako>=1.0.7,<2",
+    "munch>=4,<5",
+    "autoflake",
+    "flake8-requirements>=2.1.0",
+    "pylint~=2.11",
+    "demjson3",
+    "graphviz",
+    "click>=8,<9",
+    "requests~=2.32",
+    "termcolor",
+    "Pillow>=11",
+    "ecdsa>=0.16,<0.17",
+    "pyasn1",
+    "noiseprotocol>=0.3.1,<0.4",
+    "west>=1.4.0,<2",
+    "cbor2==5.6.5",
+    "intelhex==2.3.0",
+    "imgtool==2.2.0",
+    "setuptools>=24.2.0",
+    "cryptography",
+    "hypothesis",
+    "inotify",
+    "yamllint>=1.25.0,<2",
+    "vulture~=2.6",
+    "binsize>=0.1.3,<0.2",
+    "toiftool ; python_version >= '3.8'",
+    "trezor-pylint-plugin",
+    "trezor-core-tools",
+    "flake8-annotations>=3.1.1,<4",
+    "pyelftools>=0.32,<0.33",
+    "pytest-retry>=1.7.0,<2",
+    "slh-dsa>=0.1.3,<0.2",
+    "bleak>=1.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "scan-build",
+    "towncrier>=23.6.0,<24",
+    "wheel>0.45",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+trezor = { path = "./python", editable = true }
+tvl = { path = "./vendor/ts-tvl", editable = true }
+toiftool = { path = "./python/tools/toiftool", editable = true }
+trezor-pylint-plugin = { path = "./tools/trezor-pylint-plugin", editable = true }
+trezor-core-tools = { path = "./core/tools", editable = true }
+
+[tool.isort]
+profile = "black"
+extra_standard_library = [
+  "buffer_types",
+  "micropython",
+  "ubinascii",
+  "ustruct",
+  "uctypes",
+  "utime",
+  "utimeq",
+  "trezorio",
+  "trezorui",
+  "trezorutils",
+  "trezorconfig",
+  "trezorcrypto",
+]
+known_first_party = ["trezorlib", "apps", "coin_info", "marketcap", "ui_tests"]
+known_third_party = ["trezor", "storage"]

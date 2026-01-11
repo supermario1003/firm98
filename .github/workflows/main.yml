@@ -1,0 +1,47 @@
+name: Build Trezor Model One Firmware
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # Free disk space on GitHub runner (critical for large Docker builds)
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          docker system prune -af
+
+      # Install compatible protobuf for legacy firmware
+      - name: Install compatible protobuf
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+          pip install protobuf==3.20.*
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Make build script executable
+        run: chmod +x build-docker.sh
+
+      - name: Build firmware (Model One)
+        env:
+          DOCKER_BUILDKIT: 1
+        run: |
+          ./build-docker.sh --models T1B1 main
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: trezor-model-one-firmware
+          path: build/

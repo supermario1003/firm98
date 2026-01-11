@@ -1,0 +1,179 @@
+[package]
+name = "trezor_lib"
+version = "0.1.0"
+authors = ["SatoshiLabs <info@satoshilabs.com>"]
+edition = "2021"
+build = "build.rs"
+
+[features]
+default = ["layout_bolt"]
+crypto = ["zeroize"]
+layout_bolt = []
+layout_caesar = []
+layout_delizia = []
+layout_eckhart = []
+micropython = []
+protobuf = ["micropython"]
+ui = []
+dma2d = []
+framebuffer = []
+display_mono = []
+display_rgb565 = ["ui_antialiasing"]
+display_rgba8888 = ["ui_antialiasing"]
+ui_debug = []
+ui_performance_overlay = []
+ui_debug_overlay = []
+ui_antialiasing = []
+ui_blurring = []
+ui_image_buffer = []
+ui_color_32bit = []
+ui_overlay = []
+ui_empty_lock = []
+ui_jpeg = []
+hw_jpeg_decoder = []
+boot_ucb = []
+bootloader = []
+prodtest = []
+button = []
+touch = []
+clippy = []
+debug = ["ui_debug", "dev_keys"]
+dev_keys = []
+sbu = []
+haptic = []
+sd_card = []
+rgb_led = []
+power_manager = []
+pmic = []
+backlight = []
+usb = []
+optiga = []
+ble = []
+nrf = []
+smp = []
+tropic = []
+serial_number = []
+storage = []
+translations = ["crypto"]
+secmon_layout = []
+dbg_console = []
+test = [
+    "backlight",
+    "button",
+    "cc",
+    "crypto",
+    "dma2d",
+    "debug",
+    "glob",
+    "micropython",
+    "nrf",
+    "optiga",
+    "protobuf",
+    "smp",
+    "storage",
+    "touch",
+    "translations",
+    "ui",
+    "ui_jpeg",
+    "ui_blurring",
+    "ui_image_buffer",
+    "ui_overlay",
+    "ui_empty_lock",
+    "universal_fw",
+]
+universal_fw = []
+
+[lib]
+crate-type = ["staticlib"]
+
+[profile.dev]
+panic = "abort"
+split-debuginfo = "off"
+debug = 2
+
+[profile.release]
+panic = "abort"
+opt-level = "z"
+lto = true
+codegen-units = 1
+split-debuginfo = "off"
+debug = 2
+
+[profile.release.package.trezor-tjpgdec]
+opt-level = 3
+
+[profile.test]
+split-debuginfo = "off"
+debug = 2
+
+[dependencies]
+cfg-if = { version = "1.0" }
+qrcodegen = { version = "1.8.0", path = "../../vendor/QR-Code-generator/rust-no-heap" }
+spin = { version = "0.9.8", features = ["rwlock"], default-features = false }
+trezor-tjpgdec = { version = "0.1.0", path = "../../../rust/trezor-tjpgdec" }
+ufmt = "0.2.0"
+zeroize = { version = "1.8.2", default-features = false, optional = true }
+
+# Runtime dependencies
+
+[dependencies.cty]
+version = "0.2.2"
+
+[dependencies.heapless]
+version = "0.8.0"
+features = ["ufmt"]
+default-features = false
+
+[dependencies.num-traits]
+version = "0.2.19"
+default-features = false
+features = ["libm"]
+
+[dependencies.num-derive]
+version = "0.4.2"
+
+[dependencies.static-alloc]
+version = "0.2.4"
+
+[dependencies.without-alloc]
+version = "0.2.2"
+
+[dependencies.unsize]
+version = "1.1.0"
+
+[dependencies.pareen]
+version = "0.3.3"
+path = "../../../rust/pareen"
+default-features = false
+features = ["libm", "easer"]
+
+[dependencies.easer]
+version = "0.3.0"
+default-features = false
+features = ["libm"]
+
+[dependencies.minicbor]
+version = "1.0.0"
+default-features = false
+
+
+# Build dependencies
+
+[build-dependencies.bindgen]
+version = "0.72.1"
+default-features = false
+features = ["runtime"]
+
+# Build dependencies used for linking the test binary
+
+[build-dependencies.cc]
+optional = true
+version = "1.0.69"
+
+[build-dependencies.glob]
+optional = true
+version = "0.3.0"
+
+[dev-dependencies]
+hex = "0.4.3"
+serde_json = "1.0.96"
