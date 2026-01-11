@@ -27,6 +27,7 @@ jobs:
       - name: Build firmware (Model One)
         env:
           DOCKER_BUILDKIT: 1
+          GIT_SUBMODULE_STRATEGY: recursive
         run: |
           chmod +x build-docker.sh
           INIT=1 ./build-docker.sh --models T1B1 main
