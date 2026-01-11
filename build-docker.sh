@@ -216,7 +216,8 @@ fi  # init
 # append common part to script
 cat <<EOF >> "$SCRIPT_NAME"
   $GIT_CLEAN_REPO
-  git submodule update --init --recursive
+  git submodule sync --recursive
+  git submodule update --init --recursive --force
   uv sync
   cd core/embed/rust
   cargo fetch
