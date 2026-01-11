@@ -192,7 +192,7 @@ mkdir -p /reproducible-build
 cd /reproducible-build
 # ignore ownership of the local repo
 git config --global --add safe.directory /local/.git
-git clone --recurse-submodules --branch="$TAG" "$REPOSITORY" trezor-firmware
+cp -a /local trezor-firmware
 cd trezor-firmware
 git submodule sync --recursive
 git submodule update --init --recursive --force
