@@ -185,27 +185,30 @@ if [ $INIT -eq 1 ]; then
     ci/
 
   cat <<EOF > "$SCRIPT_NAME"
-    #!/bin/bash
-    set -e -o pipefail
+#!/bin/bash
+set -e -o pipefail
 
-    mkdir -p /reproducible-build
-    cd /reproducible-build
-    # ignore ownership of the local repo
-    git config --global --add safe.directory /local/.git
-    git clone --branch="$TAG" --depth=1 "$REPOSITORY" trezor-firmware
-    cd trezor-firmware
+mkdir -p /reproducible-build
+cd /reproducible-build
+# ignore ownership of the local repo
+git config --global --add safe.directory /local/.git
+git clone --branch="$TAG" --depth=1 --recursive "$REPOSITORY" trezor-firmware
+cd trezor-firmware
+git submodule update --init --recursive
 EOF
+
 
 else  # init == 0
 
   SELECTED_CONTAINER="$SNAPSHOT_NAME"
 
-  cat <<EOF > "$SCRIPT_NAME"
-    #!/bin/bash
-    set -e -o pipefail
+cat <<EOF > "$SCRIPT_NAME"
+#!/bin/bash
+set -e -o pipefail
 
-    cd /reproducible-build/trezor-firmware
+cd /reproducible-build/trezor-firmware
 EOF
+
 
 fi  # init
 
